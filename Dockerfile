@@ -15,6 +15,7 @@ RUN npm install -g gulp bower
 # Source
 ADD app /app
 ADD bower.json /bower.json
+Add .bowerrc /.bowerrc
 ADD gulpfile.js /gulpfile.js
 ADD package.json /package.json
 ADD tasks /tasks
