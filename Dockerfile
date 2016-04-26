@@ -17,6 +17,7 @@ ADD app /app
 ADD bower.json /bower.json
 ADD gulpfile.js /gulpfile.js
 ADD package.json /package.json
+ADD tasks /tasks
 
 # Dependencies
 RUN bower install --allow-root --config.interactive=false -s

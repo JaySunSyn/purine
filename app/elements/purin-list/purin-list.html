@@ -14,7 +14,7 @@
       }
     </style>
 
-    <iron-ajax url="data.json" last-response="{{data}}" on-response="serviceResponded" auto></iron-ajax>
+    <iron-ajax url="/data.json" last-response="{{data}}" on-response="serviceResponded" auto></iron-ajax>
     <iron-data-table items="[[data]]">
       <data-table-column name="Foods" filter-by="name" sort-by="name">
         <template>[[item.name]]</template>
