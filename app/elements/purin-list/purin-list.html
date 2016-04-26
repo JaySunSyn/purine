@@ -1,0 +1,57 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-data-table/iron-data-table.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<dom-module id="purin-list">
+  <template>
+    <style>
+      :host {
+        display: block;
+        height: 100%;
+      }
+
+      iron-data-table {
+        height: 80%;
+      }
+    </style>
+
+    <iron-ajax url="data.json" last-response="{{data}}" on-response="serviceResponded" auto></iron-ajax>
+    <iron-data-table items="[[data]]">
+      <data-table-column name="Foods" filter-by="name" sort-by="name">
+        <template>[[item.name]]</template>
+      </data-table-column>
+      <data-table-column name="Total Purines in mg uric acid/100 g (Average)" filter-by="purine" sort-by="purine">
+        <template>[[item.purine]]</template>
+      </data-table-column>
+      <data-table-column name="Nutrition Density in mg/MJ" filter-by="density" sort-by="density">
+        <template>[[item.density]]</template>
+      </data-table-column>
+      <data-table-column name="Type" filter-by="type" sort-by="type">
+        <template>[[item.type]]</template>
+      </data-table-column>
+    </iron-data-table>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'purin-list',
+
+      properties: {
+        entries: {
+          type: Array,
+          value: function() { return []; },
+          notify: true
+        }
+      },
+
+      attached: function() {
+
+      },
+
+      serviceResponded: function(e) {
+      }
+    });
+  })();
+  </script>
+</dom-module>
