@@ -78,7 +78,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <span class="space"></span>
 
         <!-- Toolbar icons -->
-        <div>*no guarantee</div>
+        <div>{{dose.data.quote}}</div>
 
         <!-- Application name -->
         <div class="middle middle-container">
@@ -95,7 +95,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <div class="content">
         <iron-pages attr-for-selected="data-route" selected="{{route}}">
           <section class="page" data-route="home">
-            <purin-list></purin-list>
+            <purin-list dose="{{dose}}"></purin-list>
           </section>
         </iron-pages>
       </div>

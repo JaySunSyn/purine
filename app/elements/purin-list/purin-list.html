@@ -1,6 +1,9 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-data-table/iron-data-table.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+
+<link rel="import" href="../data-model/data-model.html">
+
 <dom-module id="purin-list">
   <template>
     <style>
@@ -13,6 +16,9 @@
         height: 80%;
       }
     </style>
+    <data-model dose="{{dose}}"></data-model>
+
+    <div>*no guarantee on the provided data</div>
 
     <iron-ajax url="/data.json" last-response="{{data}}" on-response="serviceResponded" auto></iron-ajax>
     <iron-data-table items="[[data]]">
@@ -38,18 +44,10 @@
       is: 'purin-list',
 
       properties: {
-        entries: {
-          type: Array,
-          value: function() { return []; },
+        dose: {
+          type: Object,
           notify: true
         }
-      },
-
-      attached: function() {
-
-      },
-
-      serviceResponded: function(e) {
       }
     });
   })();
