@@ -1,0 +1,55 @@
+<script type="text/javascript" src="../bower_components/js-data/dist/js-data.min.js"></script>
+<script type="text/javascript" src="../bower_components/js-data-http/dist/js-data-http.min.js"></script>
+<script>
+  window.addEventListener('WebComponentsReady', function() {
+    var app = document.querySelector('#app');
+
+    store = new JSData.DS();
+
+    var httpAdapter = new DSHttpAdapter();
+    httpAdapter.defaults.basePath = 'https://arts-dose.appspot.com/_ah/api/artsdose/v1/';
+    httpAdapter.defaults.suffix = '?token=3bd289f1ab1851af761d95235450f629';
+    store.registerAdapter('http', httpAdapter, { default: true });
+
+    store.defineResource({
+      name: 'dose',
+      idAttribute: 'date',
+      beforeInject: function(resource, data) {
+        return data.dose;
+      },
+
+      afterInject: function(resource, data) {
+        app.fire('store-updated');
+        app.fire(store.getClassName(data) + '-updated');
+      },
+
+      afterFind: function(resource, data, cb) {
+       // Must return the data or a promise that resolves with the data
+        cb(null, {
+          date: data.dose.date,
+          data: data.dose
+        });
+      },
+    });
+
+    store.findDoseOfTheDay = function() {
+      return promise = store.find('dose', '');
+    };
+
+    store.getQuote = function() {
+      var doses = this.getAll('dose');
+      if (doses.length > 0) {
+        return doses[0].data.quote;
+      }
+      return '';
+    };
+
+    store.getClassName = function(obj) { 
+       var funcNameRegex = /function (.{1,})\(/;
+       var results = (funcNameRegex).exec((obj).constructor.toString());
+       return (results && results.length > 1) ? results[1].toLowerCase() : ''.toLowerCase();
+    }
+
+    app.fire('store-ready');
+  });
+</script>

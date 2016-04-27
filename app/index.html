@@ -53,6 +53,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <!-- Because this project uses vulcanize this should be your only html import
        in this file. All other imports should go in elements.html -->
+  <link rel="import" href="elements/models.html">
   <link rel="import" href="elements/elements.html">
 
   <!-- For shared styles, shared-styles.html import in elements.html -->
@@ -78,7 +79,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <span class="space"></span>
 
         <!-- Toolbar icons -->
-        <div>{{dose.data.quote}}</div>
+        <div>{{quote}}</div>
 
         <!-- Application name -->
         <div class="middle middle-container">
@@ -95,7 +96,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <div class="content">
         <iron-pages attr-for-selected="data-route" selected="{{route}}">
           <section class="page" data-route="home">
-            <purin-list dose="{{dose}}"></purin-list>
+            <purin-list quote="{{quote}}"></purin-list>
           </section>
         </iron-pages>
       </div>
