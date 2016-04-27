@@ -1,8 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+
 <link rel="import" href="../../bower_components/iron-data-table/iron-data-table.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
-
-<link rel="import" href="../data-model/data-model.html">
 
 <dom-module id="purin-list">
   <template>
@@ -16,11 +15,9 @@
         height: 80%;
       }
     </style>
-    <data-model dose="{{dose}}"></data-model>
 
     <div>*no guarantee on the provided data</div>
-
-    <iron-ajax url="/data.json" last-response="{{data}}" on-response="serviceResponded" auto></iron-ajax>
+    <iron-ajax url="/data.json" last-response="{{data}}" auto></iron-ajax>
     <iron-data-table items="[[data]]">
       <data-table-column name="Foods" filter-by="name" sort-by="name">
         <template>[[item.name]]</template>
@@ -44,11 +41,23 @@
       is: 'purin-list',
 
       properties: {
-        dose: {
-          type: Object,
+        quote: {
+          type: String,
+          value: '',
           notify: true
         }
-      }
+      },
+ 
+      attached: function() {
+        app.addEventListener('store-ready', function() {
+          store.findDoseOfTheDay();
+        }.bind(this));
+
+        app.addEventListener('dose-updated', function() {
+          this.quote = store.getQuote();
+        }.bind(this));
+      },
+
     });
   })();
   </script>
