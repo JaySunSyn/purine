@@ -4,23 +4,21 @@
   window.addEventListener('WebComponentsReady', function() {
     var app = document.querySelector('#app');
 
-    store = new JSData.DS();
+    store = new JSData.DS({
+      instanceEvents: true,
+    });
 
     var httpAdapter = new DSHttpAdapter();
     httpAdapter.defaults.basePath = 'https://arts-dose.appspot.com/_ah/api/artsdose/v1/';
     httpAdapter.defaults.suffix = '?token=3bd289f1ab1851af761d95235450f629';
     store.registerAdapter('http', httpAdapter, { default: true });
 
-    store.defineResource({
+    dose = store.defineResource({
       name: 'dose',
       idAttribute: 'date',
+      instanceEvents: true,
       beforeInject: function(resource, data) {
         return data.dose;
-      },
-
-      afterInject: function(resource, data) {
-        app.fire('store-updated');
-        app.fire(store.getClassName(data) + '-updated');
       },
 
       afterFind: function(resource, data, cb) {
@@ -30,6 +28,15 @@
           data: data.dose
         });
       },
+    });
+
+    dose.on('DS.change', function(resource, data) {
+      var nodes = Polymer.dom(document).querySelectorAll('[notify-store-changes]');
+      for (var i = nodes.length - 1; i >= 0; i--) {
+        data.lastChange = resource.lastModified();
+        nodes[i].notifyPath('dose.lastChange', data.lastChange);
+        nodes[i].notifyPath('dose', data);
+      };
     });
 
     store.findDoseOfTheDay = function() {
@@ -47,7 +54,7 @@
     store.getClassName = function(obj) { 
        var funcNameRegex = /function (.{1,})\(/;
        var results = (funcNameRegex).exec((obj).constructor.toString());
-       return (results && results.length > 1) ? results[1].toLowerCase() : ''.toLowerCase();
+       return (results && results.length > 1) ? results[1].toLowerCase() : '';
     }
 
     app.fire('store-ready');

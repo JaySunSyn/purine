@@ -43,9 +43,13 @@
       properties: {
         quote: {
           type: String,
-          value: '',
-          notify: true
-        }
+          notify: true,
+          computed: 'computeQuote(dose.lastChange, dose)'
+        },
+      },
+
+      computeQuote: function(timestamp, quote) {
+        return quote.data.quote;
       },
  
       attached: function() {
@@ -53,9 +57,9 @@
           store.findDoseOfTheDay();
         }.bind(this));
 
-        app.addEventListener('dose-updated', function() {
-          this.quote = store.getQuote();
-        }.bind(this));
+        // app.addEventListener('dose-changed', function() {
+        //   this.quote = store.getQuote();
+        // }.bind(this));
       },
 
     });
